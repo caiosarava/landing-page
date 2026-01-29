@@ -111,40 +111,41 @@
         </div>
     </section>
 
-    <!-- Vídeo Curso EcoSOL -->
-    <section class="py-20 px-6 bg-gradient-to-b from-slate-50 to-slate-100">
+    <!-- Movimento -->
+    <section class="py-20 px-6 bg-gradient-to-br from-emerald-50 to-white">
         <div class="max-w-5xl mx-auto">
             <div class="text-center mb-12">
-                <h2 class="text-emerald-600 font-bold uppercase tracking-widest text-sm mb-2">Aprenda Mais</h2>
-                <h3 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Economia Solidária</h3>
-                <p class="text-slate-600 max-w-2xl mx-auto">
-                    Assista ao vídeo e entenda melhor como participar da Economia Solidária.
-                </p>
+                <h2 class="text-sm font-bold text-emerald-600 uppercase tracking-widest mb-2">História</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-900 mb-6 leading-tight">O Movimento em São Carlos</h3>
             </div>
-            
-            <div class="relative bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200">
-                <div class="aspect-video">
-                    <video 
-                        controls 
-                        class="w-full h-full"
-                        poster=""
-                    >
-                        <source src="/Curso EcoSOL1.mp4" type="video/mp4">
-                        
-                        Seu navegador não suporta a reprodução de vídeos.
-                    </video>
-                </div>
-                <div class="p-6 bg-slate-50 border-t border-slate-200">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center text-white">
-                            <i class="fas fa-play"></i>
-                        </div>
-                        <div>
-                            <p class="font-bold text-slate-800">Como participar?</p>
-                            <p class="text-sm text-slate-500">Introdução à Economia Solidária</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-slate-100">
+                <p class="text-lg text-slate-600 leading-relaxed mb-6">
+                    O movimento de Economia Solidária (Ecosol) em São Carlos é uma referência histórica no Brasil, fundamentado na autogestão, na cooperação e na valorização do ser humano acima do lucro. O município se destaca por possuir uma estrutura institucional robusta que integra o poder público, universidades e os próprios trabalhadores.
+                </p>
+
+                <h4 class="text-xl font-bold text-slate-800 mb-4">O Fórum Municipal de Economia Solidária</h4>
+                <p class="text-md text-slate-600 leading-relaxed mb-4">
+                    Criado formalmente em 2005, o Fórum Municipal é o coração democrático do movimento na cidade. Ele funciona como uma instância de articulação e organização, servindo de ponte entre os empreendimentos locais e as esferas regionais e nacionais.
+                </p>
+                <ul class="list-disc list-inside text-slate-600 space-y-2 mb-6 ml-4">
+                    <li><strong>Objetivo:</strong> Discutir políticas públicas, trocar informações entre os empreendimentos e formular propostas para fortalecer o setor.</li>
+                    <li><strong>Composição:</strong> É aberto a todos que aderem à sua Carta de Princípios, incluindo cooperativas populares, associações de artesãos, entidades de apoio e movimentos sociais.</li>
+                    <li><strong>Gestão Democrática:</strong> Diferente de uma estrutura hierárquica, o Fórum opera sob a lógica da horizontalidade, onde todos os membros têm voz e voto nas decisões que afetam a rede.</li>
+                </ul>
+
+                <h4 class="text-xl font-bold text-slate-800 mb-4">Dinâmica de Funcionamento e Reuniões</h4>
+                <p class="text-md text-slate-600 leading-relaxed mb-4">
+                    As atividades do Fórum e do movimento em São Carlos ocorrem de forma integrada com o Conselho Municipal (COMESOL) e o Departamento de Economia Solidária.
+                </p>
+                <ul class="list-disc list-inside text-slate-600 space-y-2 mb-6 ml-4">
+                    <li><strong>Periodicidade:</strong> As reuniões costumam ocorrer mensalmente, servindo como espaço de escuta e planejamento.</li>
+                    <li><strong>Locais de Encontro:</strong> Grande parte das atividades e reuniões se concentra no Centro Público de Economia Solidária "Herbert de Souza – Betinho" (localizado na Rua José Bonifácio, 885). Este espaço foi revitalizado recentemente e serve como sede administrativa e de fomento.</li>
+                    
+                </ul>
+
+                <p class="text-md text-slate-600 leading-relaxed">
+                    <strong>Nota:</strong> Além do debate político, o movimento se manifesta na prática através da Feira de Economia Solidária, que acontece tradicionalmente aos domingos na Praça XV, sendo o principal ponto de comercialização direta e visibilidade para o público geral.
+                </p>
             </div>
         </div>
     </section>
@@ -208,7 +209,7 @@
             <div class="bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
                 <div class="md:w-1/3 bg-emerald-600 p-10 text-white flex flex-col justify-between">
                     <div>
-                        <h3 class="text-2xl font-bold mb-4">Seja um Empreendedor Solidário</h3>
+                        <h3 class="text-2xl font-bold mb-4">Faça parte!</h3>
                         <p class="text-emerald-100 text-sm">Preencha seus dados para receber informações sobre as próximas chamadas e reuniões.</p>
                     </div>
                     <div class="hidden md:block">
@@ -241,8 +242,12 @@
                             <label class="text-xs font-bold text-slate-500 uppercase">O que você produz?</label>
                             <textarea id="produtos" name="produtos" rows="3" required class="w-full mt-1 p-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="Descreva brevemente seus produtos..."></textarea>
                         </div>
+                        <div>
+                            <label class="text-xs font-bold text-slate-500 uppercase">Dúvidas / Sugestões (opcional)</label>
+                            <textarea id="duvidassugestoes" name="duvidassugestoes" rows="3" class="w-full mt-1 p-3 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none" placeholder="Escreva suas dúvidas ou sugestões aqui..."></textarea>
+                        </div>
                         <button type="submit" class="w-full bg-slate-900 text-white font-bold py-4 rounded-xl hover:bg-slate-800 transition duration-300 transform hover:-translate-y-1">
-                            Quero fazer parte!
+                            Quero conhecer!
                         </button>
                         <div id="mensagemSucesso" class="hidden bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-3 rounded-lg text-sm">
                             ✓ Cadastro enviado com sucesso! Entraremos em contato em breve.
@@ -275,7 +280,7 @@
                     </li>
                     <li class="flex items-center gap-3">
                         <i class="fas fa-envelope text-emerald-500"></i>
-                        daes.ecosol@gmail.com
+                        <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="8febeeeafca1eaece0fce0e3cfe8e2eee6e3a1ece0e2">[email&#160;protected]</a>
                     </li>
                     <li class="flex items-center gap-3">
                         <i class="fas fa-clock text-emerald-500"></i>
@@ -286,8 +291,7 @@
             <div>
                 <h4 class="text-white font-bold mb-6 text-lg">Localização</h4>
                 <p class="text-sm">
-                    Centro Público de Economia Solidária - Herbert de Souza "Betinho"
-                    <br>
+                    Centro Público de Economia Solidária - Herbert de Souza "Betinho"<br>
                     Rua José Bonifácio, 885 (Centro)<br>
                     São Carlos - SP<br>
                     CEP: 13560-610
@@ -299,7 +303,7 @@
         </div>
     </footer>
 
-    <script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
         // Funções de máscara sem dependências externas
         function mascaraCPF(valor) {
             return valor
@@ -329,7 +333,7 @@
 
         // Configuração do Google Sheets
         // SUBSTITUA ESTA URL pela URL do seu Google Apps Script
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwGj0NK2E6R9P8JNM6avAqyt6NhcFHebjHrHxcR2eP5NbOvreWrZqAg8LNoKhzH6dNm/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby3CTw9levkfjNAWhbM36-dZOrunyU6K3yixLYITa38wCsZhaaZbZwLgQf9pGF-rzUz/exec';
 
         // Envio do formulário
         document.getElementById('cadastroForm').addEventListener('submit', async function(e) {
@@ -353,6 +357,7 @@
                 email: document.getElementById('email').value,
                 cpf: document.getElementById('cpf').value,
                 produtos: document.getElementById('produtos').value,
+                duvidassugestoes: document.getElementById('duvidassugestoes').value,
                 timestamp: new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })
             };
             
@@ -380,10 +385,8 @@
                 console.error('Erro:', error);
                 loadingOverlay.classList.remove('active');
                 mensagemErro.classList.remove('hidden');
-                mensagemErro.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         });
     </script>
-
 </body>
 </html>
