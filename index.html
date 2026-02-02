@@ -11,6 +11,62 @@
         .bg-gradient-nav {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         }
+        .carousel {
+            position: relative;
+            overflow: hidden;
+        }
+        .carousel-wrapper {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .carousel-item {
+            min-width: 100%;
+            flex-shrink: 0;
+        }
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(16, 185, 129, 0.8);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            z-index: 10;
+            transition: background-color 0.3s;
+        }
+        .carousel-nav:hover {
+            background: rgba(16, 185, 129, 1);
+        }
+        .carousel-nav.prev {
+            left: 20px;
+        }
+        .carousel-nav.next {
+            right: 20px;
+        }
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.3);
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .carousel-dot.active {
+            background: rgb(16, 185, 129);
+        }
         .loading-overlay {
             display: none;
             position: fixed;
@@ -50,6 +106,9 @@
     <!-- Navegação / Hero -->
     <header class="bg-gradient-nav text-white py-20 px-6 border-b-4 border-emerald-500">
         <div class="max-w-5xl mx-auto text-center">
+            <div class="mb-6 flex justify-center">
+                <img src="logo.png" alt="Logo Economia Solidária" class="h-40 object-contain">
+            </div>
             <div class="inline-block bg-emerald-500 text-slate-900 text-xs font-bold px-3 py-1 rounded-full mb-6 uppercase tracking-widest">
                 São Carlos - SP
             </div>
@@ -203,6 +262,147 @@
         </div>
     </section>
 
+    <!-- Agenda -->
+    <section id="agenda" class="py-20 px-6 bg-gradient-to-br from-white to-emerald-50">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-emerald-600 font-bold uppercase tracking-widest text-sm mb-2">Próximos Eventos</h2>
+                <h3 class="text-3xl md:text-5xl font-bold text-slate-900">Agenda</h3>
+                <p class="text-slate-600 mt-4 max-w-xl mx-auto">Confira os eventos e atividades do nosso movimento</p>
+            </div>
+            
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100">
+                <div class="carousel">
+                    <div class="carousel-wrapper" id="carouselWrapper">
+                        <!-- Evento 1 -->
+                        <div class="carousel-item">
+                            <a href="https://example.com/evento1" class="block hover:opacity-90 transition">
+                                <div class="grid md:grid-cols-2">
+                                    <div class="bg-gradient-to-br from-emerald-500 to-emerald-600 p-10 text-white flex flex-col justify-between min-h-96">
+                                        <div>
+                                            <p class="text-emerald-100 text-sm font-semibold mb-2">Próximo Evento</p>
+                                            <h4 class="text-3xl font-bold mb-4">Reunião do Fórum Municipal</h4>
+                                            <p class="text-emerald-50 leading-relaxed mb-6">
+                                                Encontro mensal para discussão de políticas públicas e organização do movimento.
+                                            </p>
+                                        </div>
+                                        <div class="text-emerald-100">
+                                            <p class="text-sm">Saiba mais →</p>
+                                        </div>
+                                    </div>
+                                    <div class="p-10 flex flex-col justify-center">
+                                        <div class="space-y-6">
+                                            <div>
+                                                <p class="text-slate-500 text-sm uppercase tracking-widest font-bold mb-1">Data</p>
+                                                <p class="text-2xl font-bold text-slate-900">15 de Fevereiro</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-slate-500 text-sm uppercase tracking-widest font-bold mb-1">Horário</p>
+                                                <p class="text-2xl font-bold text-slate-900">19h00</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-slate-500 text-sm uppercase tracking-widest font-bold mb-1">Local</p>
+                                                <p class="text-lg font-bold text-slate-900">Centro Público de Economia Solidária</p>
+                                                <p class="text-slate-600 text-sm">Rua José Bonifácio, 885</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Evento 2 -->
+                        <div class="carousel-item">
+                            <a href="https://example.com/evento2" class="block hover:opacity-90 transition">
+                                <div class="grid md:grid-cols-2">
+                                    <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-10 text-white flex flex-col justify-between min-h-96">
+                                        <div>
+                                            <p class="text-blue-100 text-sm font-semibold mb-2">Workshop</p>
+                                            <h4 class="text-3xl font-bold mb-4">Curso de Boas Práticas - ANVISA</h4>
+                                            <p class="text-blue-50 leading-relaxed mb-6">
+                                                Treinamento obrigatório para produtores de alimentos que desejam participar da Feira.
+                                            </p>
+                                        </div>
+                                        <div class="text-blue-100">
+                                            <p class="text-sm">Saiba mais →</p>
+                                        </div>
+                                    </div>
+                                    <div class="p-10 flex flex-col justify-center">
+                                        <div class="space-y-6">
+                                            <div>
+                                                <p class="text-slate-500 text-sm uppercase tracking-widest font-bold mb-1">Data</p>
+                                                <p class="text-2xl font-bold text-slate-900">20 de Fevereiro</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-slate-500 text-sm uppercase tracking-widest font-bold mb-1">Horário</p>
+                                                <p class="text-2xl font-bold text-slate-900">14h00</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-slate-500 text-sm uppercase tracking-widest font-bold mb-1">Local</p>
+                                                <p class="text-lg font-bold text-slate-900">Auditório da Prefeitura</p>
+                                                <p class="text-slate-600 text-sm">Avenida Principal, 500</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Evento 3 -->
+                        <div class="carousel-item">
+                            <a href="https://example.com/evento3" class="block hover:opacity-90 transition">
+                                <div class="grid md:grid-cols-2">
+                                    <div class="bg-gradient-to-br from-amber-500 to-amber-600 p-10 text-white flex flex-col justify-between min-h-96">
+                                        <div>
+                                            <p class="text-amber-100 text-sm font-semibold mb-2">Evento Mensal</p>
+                                            <h4 class="text-3xl font-bold mb-4">Feira de Economia Solidária</h4>
+                                            <p class="text-amber-50 leading-relaxed mb-6">
+                                                Confira os produtos locais e conheça os produtores de nossa comunidade.
+                                            </p>
+                                        </div>
+                                        <div class="text-amber-100">
+                                            <p class="text-sm">Saiba mais →</p>
+                                        </div>
+                                    </div>
+                                    <div class="p-10 flex flex-col justify-center">
+                                        <div class="space-y-6">
+                                            <div>
+                                                <p class="text-slate-500 text-sm uppercase tracking-widest font-bold mb-1">Data</p>
+                                                <p class="text-2xl font-bold text-slate-900">Todos os Domingos</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-slate-500 text-sm uppercase tracking-widest font-bold mb-1">Horário</p>
+                                                <p class="text-2xl font-bold text-slate-900">08h00 às 13h00</p>
+                                            </div>
+                                            <div>
+                                                <p class="text-slate-500 text-sm uppercase tracking-widest font-bold mb-1">Local</p>
+                                                <p class="text-lg font-bold text-slate-900">Praça XV de Novembro</p>
+                                                <p class="text-slate-600 text-sm">Centro de São Carlos</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <button class="carousel-nav prev" id="prevBtn" onclick="moveCarousel(-1)">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-nav next" id="nextBtn" onclick="moveCarousel(1)">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+
+                <div class="carousel-dots" id="carouselDots">
+                    <div class="carousel-dot active" onclick="goToSlide(0)"></div>
+                    <div class="carousel-dot" onclick="goToSlide(1)"></div>
+                    <div class="carousel-dot" onclick="goToSlide(2)"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Cadastro -->
     <section id="cadastro" class="py-20 px-6">
         <div class="max-w-4xl mx-auto">
@@ -304,6 +504,41 @@
     </footer>
 
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // Carousel functionality
+        let currentSlide = 0;
+        const totalSlides = 3;
+
+        function moveCarousel(direction) {
+            currentSlide += direction;
+            if (currentSlide >= totalSlides) {
+                currentSlide = 0;
+            } else if (currentSlide < 0) {
+                currentSlide = totalSlides - 1;
+            }
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            const wrapper = document.getElementById('carouselWrapper');
+            const offset = -currentSlide * 100;
+            wrapper.style.transform = `translateX(${offset}%)`;
+
+            // Update dots
+            const dots = document.querySelectorAll('.carousel-dot');
+            dots.forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
         // Funções de máscara sem dependências externas
         function mascaraCPF(valor) {
             return valor
