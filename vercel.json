@@ -2,18 +2,26 @@
   "version": 2,
   "builds": [
     {
-      "src": "*.html",
+      "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "logo.png",
       "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/",
-      "dest": "/landing page.html"
+      "src": "/logo.png",
+      "dest": "/logo.png"
     },
     {
-      "src": "/(.*)",
+      "src": "/(.*\\.html)$",
       "dest": "/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/index.html"
     }
   ]
 }
