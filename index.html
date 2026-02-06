@@ -94,6 +94,44 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            text-decoration: none;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.15) translateY(-5px);
+            box-shadow: 0 6px 16px rgba(37, 211, 102, 0.6);
+        }
+        .whatsapp-float svg {
+            width: 32px;
+            height: 32px;
+            fill: white;
+        }
+        @media (max-width: 768px) {
+            .whatsapp-float {
+                bottom: 20px;
+                right: 20px;
+                width: 55px;
+                height: 55px;
+            }
+            .whatsapp-float svg {
+                width: 28px;
+                height: 28px;
+            }
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans">
@@ -211,6 +249,33 @@
                 <p class="text-md text-slate-600 leading-relaxed">
                     <strong>Nota:</strong> Além do debate político, o movimento se manifesta na prática através da Feira de Economia Solidária, que acontece tradicionalmente aos domingos na Praça XV, sendo o principal ponto de comercialização direta e visibilidade para o público geral.
                 </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vídeo do YouTube -->
+    <section id="video" class="bg-slate-100 py-20 px-6">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-emerald-600 font-bold uppercase tracking-widest text-sm mb-2">Conheça Mais</h2>
+                <h3 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Economia Solidária em Ação</h3>
+                <p class="text-slate-600 max-w-2xl mx-auto">Assista ao nosso vídeo para entender melhor como fazer parte da Economia Solidária em São Carlos</p>
+            </div>
+            
+            <div class="flex justify-center">
+                <div class="w-full max-w-2xl">
+                    <div class="relative" style="padding-bottom: 56.25%;">
+                        <iframe 
+                            class="absolute top-0 left-0 w-full h-full rounded-xl shadow-lg"
+                            src="https://www.youtube.com/embed/86rAtqJ3Hmk"
+                            title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -710,5 +775,19 @@
             }
         });
     </script>
+
+    <!-- Botão Flutuante WhatsApp -->
+    <a href="https://wa.me/551633076808?text=Olá!%20Gostaria%20de%20mais%20informações" 
+       class="whatsapp-float" 
+       title="Clique para falar conosco no WhatsApp"
+       target="_blank"
+       rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="white">
+            <!-- Balão de conversa -->
+            <path d="M19.6 9.5c0-4.2-3.5-7.6-7.8-7.6S4 5.3 4 9.5c0 2.5 1.2 4.7 3 6l-1.4 4.4 4.8-2.6c1 .3 2 .4 3.1.4 4.3 0 7.8-3.4 7.8-7.6z"/>
+            <!-- Telefone interno -->
+            <path d="M10.3 11.5h3.4v1.3h-3.4zm2 3.5c-.5 0-.9-.2-1.2-.5l-1.8.9.9-2c-.4-.5-.6-1.1-.6-1.8 0-1.9 1.5-3.4 3.4-3.4s3.4 1.5 3.4 3.4-1.5 3.4-3.4 3.4z" fill="currentColor"/>
+        </svg>
+    </a>
 </body>
 </html>
