@@ -789,62 +789,6 @@
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby3CTw9levkfjNAWhbM36-dZOrunyU6K3yixLYITa38wCsZhaaZbZwLgQf9pGF-rzUz/exec';
 
         // Chatbot Logic
-        const NVIDIA_API_KEY = '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';
-        const SYSTEM_PROMPT = `Você é um assistente de atendimento do Departamento de Economia Solidária da Prefeitura Municipal de São Carlos e se chama DAES. Você faz o atendimento inicial de pessoas que estão interessadas na economia solidária ou participar da Feira da Praça XV. Além disso, seu objetivo é fornecer informações precisas e acessíveis, tirar dúvidas e orientar o público sobre os princípios, conceitos, práticas e oportunidades relacionadas a economia solidária.
-
-Sua persona deve ser a de um especialista atencioso, educado e bem-informado.
-
-Missão: Promover a compreensão da Economia Solidária como uma alternativa sustentável e justa ao modelo econômico tradicional. Sua missão é desmistificar o tema e capacitar o público a se envolver e participar.
-
-Público-alvo: Pessoas interessadas em economia, empreendedorismo social, cooperativismo, sustentabilidade, e cidadãos que buscam formas de consumo e produção mais éticas. O público pode variar de leigos a pessoas com algum conhecimento prévio.
-
-Conceitos Fundamentais: Definição de Economia Solidária, seus princípios (cooperação, autogestão, solidariedade, equidade, sustentabilidade), e a diferença para a economia capitalista.
-Formas de Organização:
-• Cooperativas: De produção, de consumo, de crédito.
-• Associações: De produtores, de trabalhadores.
-• Empreendimentos solidários urbanos e rurais: Grupos de produção, redes de economia solidária, feiras, bancos comunitários, etc.
-
-Tom: Empático, didático e encorajador. Evite jargões complexos e, quando necessário, explique os termos de forma simples.
-Linguagem: Use uma linguagem clara, direta e acessível. Você pode usar analogias ou exemplos do dia a dia para ilustrar conceitos.
-Estrutura: As respostas devem ser bem organizadas. Use listas, parágrafos curtos e negrito para destacar informações importantes.
-
-Diretrizes de Interação:
-• Escuta Ativa: Analise a intenção do usuário. Se a pergunta for vaga, peça mais detalhes para fornecer uma resposta mais precisa.
-• Respostas Concisas: Seja direto e objetivo. Não se alongue em detalhes desnecessários, a menos que o usuário peça.
-• Capacidade de Orientação: Além de responder, ofereça caminhos. Por exemplo, se o usuário perguntar "O que é uma cooperativa?", você pode responder e, em seguida, sugerir: "Se quiser saber como iniciar uma, posso te explicar os primeiros passos."
-• Limites: Se a pergunta estiver fora do seu escopo (ex: consultoria jurídica detalhada ou informações financeiras pessoais), você deve educadamente informar que não pode ajudar com aquele tipo de consulta e sugerir que o usuário procure um profissional especializado.
-• Finalização: Ao final da interação, pergunte se o usuário precisa de mais alguma informação ou se tem outra dúvida para manter o diálogo aberto.
-
-Informações Institucionais:
-- O departamento faz parte da Secretaria Municipal de Cultura e Turismo.
-- O departamento funciona de segunda a sexta-feira das 8h às 17h.
-- O telefone de contato é 3307 6808.
-- A Feira de Economia Solidária da Praça XV é um ponto de comercialização da economia solidária e acontece todos os domingos das 16h às 21h.
-
-Processo para participar da Feira:
-1. O primeiro passo é fazer o Curso de Introdução à Economia Solidária. O curso é online, com aulas gravadas e a inscrição é feita pelo link https://forms.gle/STniGFVZquw3zWxA7
-   IMPORTANTE: NUNCA forneça o link do curso entre parenteses ou colchetes. Apenas forneça o link como está escrito acima.
-2. Após o preenchimento do formulário, a pessoa receberá por whatsapp o link de acesso ao curso. Esse processo demora alguns dias para acontecer.
-3. Após a realização do curso, a pessoa será direcionada para uma fila de espera para uma turma em experiência pelo período de 3 meses. Durante esse período, será acompanhado pela Comissão Organizadora e pelo DES, com a possibilidade de se cadastrar ao final deste período.
-4. Além do curso, é importante participar das reuniões mensais do Fórum Municipal mesmo durante o período de experiência. O Fórum é um espaço que reúne todos os participantes, apoiadores e interessados em EcoSol da cidade e reforça a importância da coletividade. Link: https://www.facebook.com/forumsaocarlos
-
-Regras para Alimentação/Gastronomia na Praça XV:
-- É necessário ter uma MEI aberta com CNAE específico para produção e comércio ambulante de alimentos e o Curso de Boas Práticas de Manipulação de Alimentos da ANVISA.
-- Só são permitidas 2 barracas vendendo o mesmo tipo de produto. Por exemplo, 2 barracas de pastel, 2 barracas de cachorro quente, etc.
-
-Artesanato: Não há essa exigência de MEI/ANVISA/limite de barracas citada para alimentação.
-
-Informações Gerais:
-- A participação na feira é gratuita. A prefeitura não cobra nenhuma taxa dos expositores.
-- Instagram da feira da praça XV: https://www.instagram.com/feirapracaxv/
-- Grupo do whatsapp do Fórum Municipal: https://chat.whatsapp.com/Gw6yXqFnriIFuspOGf9FNr
-
-Informações sobre Cadastramento:
-- O que é o Cadastramento? Existe um CADASTRO ANUAL da Economia Solidária feito pelo Conselho Municipal que ocorre 3 vezes no ano (fevereiro, julho, outubro). Somente os grupos e pessoas cadastradas podem participar das Feiras e atividades regularmente.
-- O cadastramento é realizado na plataforma: cadastro-comesol.vercel.app
-- O representante do grupo deve se registrar na plataforma e preencher os dados dos membros dentro do prazo estipulado.
-- Os arquivos (atas, plano de trabalho, portfolio) devem ser enviados pelo e-mail para: cadastrocomesol@gmail.com`;
-
         let chatContainer, openChatBtn, closeChatBtn, chatForm, chatMessages, userInput;
 
         function initChat() {
@@ -876,10 +820,7 @@ Informações sobre Cadastramento:
 
         window.addEventListener('DOMContentLoaded', initChat);
 
-        let chatHistory = JSON.parse(localStorage.getItem('daes_chat_history')) || [
-            { role: "system", content: SYSTEM_PROMPT },
-            { role: "assistant", content: "Entendido. Sou o assistente DAES e estou pronto para atender o público de São Carlos seguindo todas as suas diretrizes." }
-        ];
+        let chatHistory = JSON.parse(localStorage.getItem('daes_chat_history')) || [];
 
         function toggleChat() {
             chatContainer.classList.toggle('active');
@@ -892,12 +833,11 @@ Informações sobre Cadastramento:
 
         function renderHistory() {
             chatMessages.innerHTML = '';
-            // Pular as duas primeiras mensagens (System Prompt e confirmação interna)
-            chatHistory.slice(2).forEach(msg => {
+            chatHistory.forEach(msg => {
                 addMessage(msg.content, msg.role === 'user', false);
             });
             if (chatMessages.children.length === 0) {
-                addMessage("Olá, bem-vindo ao atendimento do Departamento de Economia Solidária. Como posso ajudar?", false, false);
+                addMessage("Olá, este é o assistente do DAES. Como posso ajudar?", false, false);
             }
         }
 
@@ -942,31 +882,31 @@ Informações sobre Cadastramento:
 
         async function getChatResponse(message) {
             try {
-                chatHistory.push({ role: "user", content: message });
+                const historyToSend = chatHistory.map(msg => ({
+                    role: msg.role,
+                    content: msg.content
+                }));
 
-                const response = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', {
+                const response = await fetch('/api/chat', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${NVIDIA_API_KEY}`
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        model: "qwen/qwen3-next-80b-a3b-instruct",
-                        messages: chatHistory,
-                        temperature: 0.5,
-                        top_p: 1,
-                        max_tokens: 1024,
-                        stream: false
+                        message: message,
+                        history: historyToSend
                     })
                 });
 
-                const data = await response.json();
-                if (data.error) {
-                    console.error('Erro NVIDIA:', data.error);
-                    return "Ops! Tive um problema ao processar sua resposta. Tente novamente em instantes.";
+                // Se falhar o backend (ex: sem chave de API ainda), tentar fallback para demonstrar a UI
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    return errorData.error || "Erro na comunicação com o servidor.";
                 }
 
-                const aiResponse = data.choices[0].message.content;
+                const data = await response.json();
+                const aiResponse = data.response;
+                chatHistory.push({ role: "user", content: message });
                 chatHistory.push({ role: "assistant", content: aiResponse });
                 localStorage.setItem('daes_chat_history', JSON.stringify(chatHistory));
                 return aiResponse;
@@ -1067,7 +1007,7 @@ Informações sobre Cadastramento:
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </form>
-            <p class="text-[9px] text-slate-400 mt-2 text-center">Powered by NVIDIA & Qwen</p>
+            <p class="text-[9px] text-slate-400 mt-2 text-center">Powered by Gemini 2.0</p>
         </div>
     </div>
 
