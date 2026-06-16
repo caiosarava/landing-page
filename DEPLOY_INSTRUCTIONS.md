@@ -12,4 +12,4 @@ Para que o chatbot funcione corretamente no deploy da Vercel, siga estes passos:
     - Clique em **Save**.
 3.  **Redeploy:** Faça um novo deploy ou clique em "Promote to Production" para que as variáveis de ambiente entrem em vigor.
 
-**Observação:** O código utiliza o modelo `gemini-2.0-flash`.
+**Observação:** O código utiliza o modelo `gemini-1.5-flash`.

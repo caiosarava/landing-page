@@ -79,14 +79,14 @@ module.exports = async (req, res) => {
 
     const genAI = new GoogleGenerativeAI(apiKey);
 
-    // Mudança para 1.5-flash para maior estabilidade e uso de systemInstruction
-    const model = genAI.getGenerativeModel({
+    // Usando v1 explicitamente e simplificando a systemInstruction
+    const model = genAI.getGenerativeModel(
+      {
         model: "gemini-1.5-flash",
-        systemInstruction: {
-            role: "system",
-            parts: [{ text: SYSTEM_PROMPT }]
-        }
-    });
+        systemInstruction: SYSTEM_PROMPT,
+      },
+      { apiVersion: "v1" }
+    );
 
     const chat = model.startChat({
       history: (history || [])
