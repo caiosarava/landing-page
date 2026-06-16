@@ -82,7 +82,10 @@ module.exports = async (req, res) => {
     // Mudança para 1.5-flash para maior estabilidade e uso de systemInstruction
     const model = genAI.getGenerativeModel({
         model: "gemini-1.5-flash",
-        systemInstruction: SYSTEM_PROMPT
+        systemInstruction: {
+            role: "system",
+            parts: [{ text: SYSTEM_PROMPT }]
+        }
     });
 
     const chat = model.startChat({
@@ -113,8 +116,8 @@ module.exports = async (req, res) => {
     }
 
     res.status(500).json({
-        error: errorMessage,
-        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+        error: errorMessage + " (Detalhes: " + error.message + ")",
+        details: error.message
     });
   }
 };
