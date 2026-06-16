@@ -79,14 +79,11 @@ module.exports = async (req, res) => {
 
     const genAI = new GoogleGenerativeAI(apiKey);
 
-    // Usando v1 explicitamente e simplificando a systemInstruction
-    const model = genAI.getGenerativeModel(
-      {
-        model: "gemini-1.5-flash",
-        systemInstruction: SYSTEM_PROMPT,
-      },
-      { apiVersion: "v1" }
-    );
+    // gemini-2.0-flash é o modelo estável e gratuito atual
+    const model = genAI.getGenerativeModel({
+      model: "gemini-2.0-flash",
+      systemInstruction: SYSTEM_PROMPT,
+    });
 
     const chat = model.startChat({
       history: (history || [])
@@ -103,21 +100,20 @@ module.exports = async (req, res) => {
 
     res.status(200).json({ response: text });
   } catch (error) {
-    console.error("Gemini API Error details:", error);
+    console.error("Gemini API Error:", error);
 
     let errorMessage = "Erro ao processar sua solicitação. ";
 
     if (error.message && error.message.includes("API key not valid")) {
-      errorMessage += "A GEMINI_API_KEY configurada é inválida.";
+      errorMessage += "A GEMINI_API_KEY configurada é inválida. Verifique nas variáveis de ambiente do Vercel.";
     } else if (error.message && error.message.includes("quota")) {
-      errorMessage += "Limite de uso da API atingido.";
+      errorMessage += "Limite de uso da API atingido. Tente novamente mais tarde.";
+    } else if (error.message && error.message.includes("not found")) {
+      errorMessage += "Modelo não encontrado. Verifique se a chave de API tem acesso ao modelo solicitado.";
     } else {
-      errorMessage += "Verifique se a GEMINI_API_KEY foi configurada corretamente nas variáveis de ambiente do Vercel.";
+      errorMessage += "Tente novamente em instantes ou entre em contato pelo telefone (16) 3307-6808.";
     }
 
-    res.status(500).json({
-        error: errorMessage + " (Detalhes: " + error.message + ")",
-        details: error.message
-    });
+    res.status(500).json({ error: errorMessage });
   }
 };
