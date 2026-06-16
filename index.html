@@ -94,6 +94,69 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        @keyframes pulse-emerald {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .chatbot-btn {
+            position: fixed;
+            bottom: 105px;
+            right: 25px;
+            background-color: #10b981;
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+            z-index: 9999;
+            transition: all 0.3s ease;
+            animation: pulse-emerald 2s infinite;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .chatbot-btn:hover {
+            transform: scale(1.1);
+            background-color: #059669;
+        }
+        .chatbot-container {
+            position: fixed;
+            bottom: 100px;
+            right: 25px;
+            width: 350px;
+            height: 500px;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            z-index: 10000;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            animation: slideUp 0.3s ease-out;
+        }
+        @media (max-width: 480px) {
+            .chatbot-container {
+                width: 100%;
+                height: 100%;
+                bottom: 0;
+                right: 0;
+                border-radius: 0;
+            }
+            .chatbot-btn {
+                bottom: 90px;
+            }
+        }
+        .chatbot-container.active {
+            display: flex;
+        }
         .whatsapp-float {
             position: fixed;
             bottom: 30px;
@@ -725,6 +788,194 @@
         // SUBSTITUA ESTA URL pela URL do seu Google Apps Script
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby3CTw9levkfjNAWhbM36-dZOrunyU6K3yixLYITa38wCsZhaaZbZwLgQf9pGF-rzUz/exec';
 
+        // Chatbot Logic
+        const GEMINI_API_KEY = 'SUA_CHAVE_AQUI'; // Substitua pela sua chave do Gemini
+        const SYSTEM_PROMPT = `Você é um assistente de atendimento do Departamento de Economia Solidária da Prefeitura Municipal de São Carlos e se chama DAES. Você faz o atendimento inicial de pessoas que estão interessadas na economia solidária ou participar da Feira da Praça XV. Além disso, seu objetivo é fornecer informações precisas e acessíveis, tirar dúvidas e orientar o público sobre os princípios, conceitos, práticas e oportunidades relacionadas a economia solidária.
+
+Sua persona deve ser a de um especialista atencioso, educado e bem-informado.
+
+Missão: Promover a compreensão da Economia Solidária como uma alternativa sustentável e justa ao modelo econômico tradicional. Sua missão é desmistificar o tema e capacitar o público a se envolver e participar.
+
+Público-alvo: Pessoas interessadas em economia, empreendedorismo social, cooperativismo, sustentabilidade, e cidadãos que buscam formas de consumo e produção mais éticas. O público pode variar de leigos a pessoas com algum conhecimento prévio.
+
+Conceitos Fundamentais: Definição de Economia Solidária, seus princípios (cooperação, autogestão, solidariedade, equidade, sustentabilidade), e a diferença para a economia capitalista.
+Formas de Organização:
+• Cooperativas: De produção, de consumo, de crédito.
+• Associações: De produtores, de trabalhadores.
+• Empreendimentos solidários urbanos e rurais: Grupos de produção, redes de economia solidária, feiras, bancos comunitários, etc.
+
+Tom: Empático, didático e encorajador. Evite jargões complexos e, quando necessário, explique os termos de forma simples.
+Linguagem: Use uma linguagem clara, direta e acessível. Você pode usar analogias ou exemplos do dia a dia para ilustrar conceitos.
+Estrutura: As respostas devem ser bem organizadas. Use listas, parágrafos curtos e negrito para destacar informações importantes.
+
+Diretrizes de Interação:
+• Escuta Ativa: Analise a intenção do usuário. Se a pergunta for vaga, peça mais detalhes para fornecer uma resposta mais precisa.
+• Respostas Concisas: Seja direto e objetivo. Não se alongue em detalhes desnecessários, a menos que o usuário peça.
+• Capacidade de Orientação: Além de responder, ofereça caminhos. Por exemplo, se o usuário perguntar "O que é uma cooperativa?", você pode responder e, em seguida, sugerir: "Se quiser saber como iniciar uma, posso te explicar os primeiros passos."
+• Limites: Se a pergunta estiver fora do seu escopo (ex: consultoria jurídica detalhada ou informações financeiras pessoais), você deve educadamente informar que não pode ajudar com aquele tipo de consulta e sugerir que o usuário procure um profissional especializado.
+• Finalização: Ao final da interação, pergunte se o usuário precisa de mais alguma informação ou se tem outra dúvida para manter o diálogo aberto.
+
+Informações Institucionais:
+- O departamento faz parte da Secretaria Municipal de Cultura e Turismo.
+- O departamento funciona de segunda a sexta-feira das 8h às 17h.
+- O telefone de contato é 3307 6808.
+- A Feira de Economia Solidária da Praça XV é um ponto de comercialização da economia solidária e acontece todos os domingos das 16h às 21h.
+
+Processo para participar da Feira:
+1. O primeiro passo é fazer o Curso de Introdução à Economia Solidária. O curso é online, com aulas gravadas e a inscrição é feita pelo link https://forms.gle/STniGFVZquw3zWxA7
+   IMPORTANTE: NUNCA forneça o link do curso entre parenteses ou colchetes. Apenas forneça o link como está escrito acima.
+2. Após o preenchimento do formulário, a pessoa receberá por whatsapp o link de acesso ao curso. Esse processo demora alguns dias para acontecer.
+3. Após a realização do curso, a pessoa será direcionada para uma fila de espera para uma turma em experiência pelo período de 3 meses. Durante esse período, será acompanhado pela Comissão Organizadora e pelo DES, com a possibilidade de se cadastrar ao final deste período.
+4. Além do curso, é importante participar das reuniões mensais do Fórum Municipal mesmo durante o período de experiência. O Fórum é um espaço que reúne todos os participantes, apoiadores e interessados em EcoSol da cidade e reforça a importância da coletividade. Link: https://www.facebook.com/forumsaocarlos
+
+Regras para Alimentação/Gastronomia na Praça XV:
+- É necessário ter uma MEI aberta com CNAE específico para produção e comércio ambulante de alimentos e o Curso de Boas Práticas de Manipulação de Alimentos da ANVISA.
+- Só são permitidas 2 barracas vendendo o mesmo tipo de produto. Por exemplo, 2 barracas de pastel, 2 barracas de cachorro quente, etc.
+
+Artesanato: Não há essa exigência de MEI/ANVISA/limite de barracas citada para alimentação.
+
+Informações Gerais:
+- A participação na feira é gratuita. A prefeitura não cobra nenhuma taxa dos expositores.
+- Instagram da feira da praça XV: https://www.instagram.com/feirapracaxv/
+- Grupo do whatsapp do Fórum Municipal: https://chat.whatsapp.com/Gw6yXqFnriIFuspOGf9FNr
+
+Informações sobre Cadastramento:
+- O que é o Cadastramento? Existe um CADASTRO ANUAL da Economia Solidária feito pelo Conselho Municipal que ocorre 3 vezes no ano (fevereiro, julho, outubro). Somente os grupos e pessoas cadastradas podem participar das Feiras e atividades regularmente.
+- O cadastramento é realizado na plataforma: cadastro-comesol.vercel.app
+- O representante do grupo deve se registrar na plataforma e preencher os dados dos membros dentro do prazo estipulado.
+- Os arquivos (atas, plano de trabalho, portfolio) devem ser enviados pelo e-mail para: cadastrocomesol@gmail.com`;
+
+        let chatContainer, openChatBtn, closeChatBtn, chatForm, chatMessages, userInput;
+
+        function initChat() {
+            chatContainer = document.getElementById('chatbotContainer');
+            openChatBtn = document.getElementById('openChat');
+            closeChatBtn = document.getElementById('closeChat');
+            chatForm = document.getElementById('chatForm');
+            chatMessages = document.getElementById('chatMessages');
+            userInput = document.getElementById('userInput');
+
+            if (openChatBtn) openChatBtn.addEventListener('click', toggleChat);
+            if (closeChatBtn) closeChatBtn.addEventListener('click', toggleChat);
+            if (chatForm) {
+                chatForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const message = userInput.value.trim();
+                    if (!message) return;
+
+                    userInput.value = '';
+                    addMessage(message, true);
+                    addLoading();
+
+                    const response = await getGeminiResponse(message);
+                    removeLoading();
+                    addMessage(response, false);
+                });
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', initChat);
+
+        let chatHistory = JSON.parse(localStorage.getItem('daes_chat_history')) || [
+            { role: "user", parts: [{ text: SYSTEM_PROMPT }] },
+            { role: "model", parts: [{ text: "Entendido. Sou o assistente DAES e estou pronto para atender o público de São Carlos seguindo todas as suas diretrizes." }] }
+        ];
+
+        function toggleChat() {
+            chatContainer.classList.toggle('active');
+            if (chatContainer.classList.contains('active')) {
+                userInput.focus();
+                renderHistory();
+            }
+        }
+
+
+        function renderHistory() {
+            chatMessages.innerHTML = '';
+            // Pular as duas primeiras mensagens (System Prompt e confirmação interna)
+            chatHistory.slice(2).forEach(msg => {
+                addMessage(msg.parts[0].text, msg.role === 'user', false);
+            });
+            if (chatMessages.children.length === 0) {
+                addMessage("Olá, bem-vindo ao atendimento do Departamento de Economia Solidária. Como posso ajudar?", false, false);
+            }
+        }
+
+        function addMessage(text, isUser, save = true) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = isUser
+                ? "bg-emerald-100 text-slate-800 p-3 rounded-2xl rounded-tr-none shadow-sm max-w-[85%] self-end border border-emerald-200"
+                : "bg-white text-slate-700 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] border border-slate-100 self-start";
+
+            // Simples tratamento de markdown para negrito e links
+            let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+                                  .replace(/\n/g, '<br>');
+
+            // Detectar links e transformar em <a> tags se não forem fornecidos já formatados
+            const urlPattern = /(https?:\/\/[^\s]+)/g;
+            formattedText = formattedText.replace(urlPattern, function(url) {
+                return `<a href="${url}" target="_blank" class="text-emerald-600 underline">${url}</a>`;
+            });
+
+            msgDiv.innerHTML = `<p class="text-sm">${formattedText}</p>`;
+            chatMessages.appendChild(msgDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            if (save && (isUser || chatHistory.length > 2)) {
+                // Não salvamos o prompt inicial aqui, ele já está no chatHistory
+            }
+        }
+
+        function addLoading() {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'chatLoading';
+            loadingDiv.className = "bg-white p-3 rounded-2xl rounded-tl-none shadow-sm self-start border border-slate-100 flex gap-1";
+            loadingDiv.innerHTML = `
+                <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce"></span>
+                <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
+                <span class="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></span>
+            `;
+            chatMessages.appendChild(loadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function removeLoading() {
+            const loadingDiv = document.getElementById('chatLoading');
+            if (loadingDiv) loadingDiv.remove();
+        }
+
+        async function getGeminiResponse(message) {
+            if (GEMINI_API_KEY === 'SUA_CHAVE_AQUI') {
+                return "Desculpe, o chatbot ainda não foi configurado com uma chave de API válida. Por favor, insira sua chave Gemini no código.";
+            }
+
+            try {
+                chatHistory.push({ role: "user", parts: [{ text: message }] });
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: chatHistory })
+                });
+
+                const data = await response.json();
+                if (data.error) {
+                    console.error('Erro Gemini:', data.error);
+                    return "Ops! Tive um problema ao processar sua resposta. Tente novamente em instantes.";
+                }
+
+                const aiResponse = data.candidates[0].content.parts[0].text;
+                chatHistory.push({ role: "model", parts: [{ text: aiResponse }] });
+                localStorage.setItem('daes_chat_history', JSON.stringify(chatHistory));
+                return aiResponse;
+
+            } catch (error) {
+                console.error('Erro na chamada API:', error);
+                return "Não consegui me conectar ao servidor. Verifique sua conexão.";
+            }
+        }
+
+
         // Envio do formulário
         document.getElementById('cadastroForm').addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -778,6 +1029,50 @@
             }
         });
     </script>
+
+    <!-- Chatbot UI -->
+    <div id="chatbotContainer" class="chatbot-container">
+        <!-- Chat Header -->
+        <div class="bg-emerald-600 p-4 text-white flex justify-between items-center shadow-md">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
+                    <img src="/logo.png" alt="DAES" class="w-8 h-8 object-contain">
+                </div>
+                <div>
+                    <h4 class="font-bold text-sm">Assistente DAES</h4>
+                    <p class="text-[10px] text-emerald-100 flex items-center gap-1">
+                        <span class="w-2 h-2 bg-emerald-300 rounded-full animate-pulse"></span>
+                        Online agora
+                    </p>
+                </div>
+            </div>
+            <button id="closeChat" class="text-white hover:text-emerald-200 transition">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Chat Messages -->
+        <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-4 bg-slate-50 flex flex-col">
+            <!-- As mensagens serão carregadas via JavaScript -->
+        </div>
+
+        <!-- Chat Input -->
+        <div class="p-4 bg-white border-t border-slate-100">
+            <form id="chatForm" class="flex gap-2">
+                <input type="text" id="userInput" placeholder="Digite sua mensagem..."
+                    class="flex-1 p-2 bg-slate-100 border-none rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none text-sm">
+                <button type="submit" class="bg-emerald-600 text-white w-10 h-10 rounded-lg flex items-center justify-center hover:bg-emerald-700 transition shadow-md">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+            <p class="text-[9px] text-slate-400 mt-2 text-center">Powered by Gemini AI</p>
+        </div>
+    </div>
+
+    <!-- Chatbot Button -->
+    <button id="openChat" class="chatbot-btn" aria-label="Abrir chat">
+        <i class="fas fa-comments text-3xl"></i>
+    </button>
 
    <!-- Botão Flutuante do WhatsApp com Animação -->
 <a href="https://wa.me/551633076808?text=Olá!%20Gostaria%20de%20mais%20informações" 
