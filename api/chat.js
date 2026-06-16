@@ -66,24 +66,25 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: "Message is required" });
   }
 
+  const apiKey = (process.env.NVIDIA_API_KEY || "").trim();
+
+  if (!apiKey) {
+    console.error("NVIDIA_API_KEY não configurada.");
+    return res.status(500).json({
+      error: "Configuração incompleta: NVIDIA_API_KEY não encontrada. Configure a variável de ambiente no painel da Vercel."
+    });
+  }
+
+  // Monta o histórico no formato OpenAI
+  const messages = [
+    { role: "system", content: SYSTEM_PROMPT },
+    ...(history || [])
+      .filter(h => h.role === "user" || h.role === "assistant")
+      .map(h => ({ role: h.role, content: h.content })),
+    { role: "user", content: message }
+  ];
+
   try {
-    const apiKey = (process.env.NVIDIA_API_KEY || "").trim();
-
-    if (!apiKey) {
-      return res.status(500).json({
-        error: "Configuração incompleta: NVIDIA_API_KEY não encontrada no ambiente do Vercel."
-      });
-    }
-
-    // Monta o histórico de mensagens no formato OpenAI
-    const messages = [
-      { role: "system", content: SYSTEM_PROMPT },
-      ...(history || [])
-        .filter(h => h.role === "user" || h.role === "assistant")
-        .map(h => ({ role: h.role, content: h.content })),
-      { role: "user", content: message }
-    ];
-
     const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -91,7 +92,7 @@ module.exports = async (req, res) => {
         "Authorization": `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: "qwen/qwen3-235b-a22b",
+        model: "qwen/qwen3-32b",
         messages,
         max_tokens: 1024,
         temperature: 0.6,
@@ -100,32 +101,46 @@ module.exports = async (req, res) => {
       })
     });
 
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      console.error("NVIDIA API Error:", errorData);
+    // Lê o corpo UMA vez
+    const rawBody = await response.text();
 
-      let errorMessage = "Erro ao processar sua solicitação. ";
+    if (!response.ok) {
+      console.error(`NVIDIA API HTTP ${response.status}:`, rawBody);
+
+      let userMessage = "Erro ao processar sua solicitação. Tente novamente em instantes ou entre em contato pelo telefone (16) 3307-6808.";
 
       if (response.status === 401) {
-        errorMessage += "A NVIDIA_API_KEY configurada é inválida. Verifique nas variáveis de ambiente do Vercel.";
+        userMessage = "Chave de API inválida (401). Verifique a variável NVIDIA_API_KEY no painel da Vercel.";
       } else if (response.status === 429) {
-        errorMessage += "Limite de uso da API atingido. Tente novamente mais tarde.";
-      } else {
-        errorMessage += "Tente novamente em instantes ou entre em contato pelo telefone (16) 3307-6808.";
+        userMessage = "Limite de requisições atingido. Aguarde alguns instantes e tente novamente.";
+      } else if (response.status === 404) {
+        userMessage = "Modelo não encontrado (404). Verifique o nome do modelo configurado.";
       }
 
-      return res.status(500).json({ error: errorMessage });
+      return res.status(500).json({ error: userMessage });
     }
 
-    const data = await response.json();
-    const text = data.choices?.[0]?.message?.content || "";
+    let data;
+    try {
+      data = JSON.parse(rawBody);
+    } catch (parseErr) {
+      console.error("Falha ao fazer parse da resposta NVIDIA:", rawBody);
+      return res.status(500).json({ error: "Resposta inválida da API. Tente novamente." });
+    }
 
-    res.status(200).json({ response: text });
+    const text = data.choices?.[0]?.message?.content;
+
+    if (!text) {
+      console.error("Resposta sem conteúdo:", JSON.stringify(data));
+      return res.status(500).json({ error: "A API retornou uma resposta vazia. Tente novamente." });
+    }
+
+    return res.status(200).json({ response: text });
 
   } catch (error) {
-    console.error("NVIDIA API Error:", error);
-    res.status(500).json({
-      error: "Não foi possível conectar ao serviço. Tente novamente em instantes ou entre em contato pelo telefone (16) 3307-6808."
+    console.error("Erro de rede ao chamar NVIDIA API:", error.message);
+    return res.status(500).json({
+      error: "Não foi possível conectar ao serviço de IA. Verifique sua conexão ou tente novamente."
     });
   }
 };
