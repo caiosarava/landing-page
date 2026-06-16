@@ -69,28 +69,29 @@ module.exports = async (req, res) => {
   }
 
   try {
-    if (!process.env.GEMINI_API_KEY) {
-      return res.status(500).json({ error: "Configuração incompleta: GEMINI_API_KEY não encontrada." });
+    const apiKey = (process.env.GEMINI_API_KEY || "").trim();
+
+    if (!apiKey) {
+      return res.status(500).json({
+        error: "Configuração incompleta: GEMINI_API_KEY não encontrada no ambiente do Vercel."
+      });
     }
 
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const genAI = new GoogleGenerativeAI(apiKey);
+
+    // Mudança para 1.5-flash para maior estabilidade e uso de systemInstruction
+    const model = genAI.getGenerativeModel({
+        model: "gemini-1.5-flash",
+        systemInstruction: SYSTEM_PROMPT
+    });
 
     const chat = model.startChat({
-      history: [
-        {
-          role: "user",
-          parts: [{ text: SYSTEM_PROMPT }],
-        },
-        {
-          role: "model",
-          parts: [{ text: "Entendido. Sou o assistente DAES e estou pronto para atender o público de São Carlos seguindo todas as suas diretrizes." }],
-        },
-        ...(history || []).map(h => ({
+      history: (history || [])
+        .filter(h => h.role === "user" || h.role === "assistant")
+        .map(h => ({
           role: h.role === "user" ? "user" : "model",
           parts: [{ text: h.content }],
         })),
-      ],
     });
 
     const result = await chat.sendMessage(message);
@@ -99,7 +100,21 @@ module.exports = async (req, res) => {
 
     res.status(200).json({ response: text });
   } catch (error) {
-    console.error("Gemini API Error:", error);
-    res.status(500).json({ error: "Erro ao processar sua solicitação. Verifique se a GEMINI_API_KEY foi configurada corretamente." });
+    console.error("Gemini API Error details:", error);
+
+    let errorMessage = "Erro ao processar sua solicitação. ";
+
+    if (error.message && error.message.includes("API key not valid")) {
+      errorMessage += "A GEMINI_API_KEY configurada é inválida.";
+    } else if (error.message && error.message.includes("quota")) {
+      errorMessage += "Limite de uso da API atingido.";
+    } else {
+      errorMessage += "Verifique se a GEMINI_API_KEY foi configurada corretamente nas variáveis de ambiente do Vercel.";
+    }
+
+    res.status(500).json({
+        error: errorMessage,
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 };
