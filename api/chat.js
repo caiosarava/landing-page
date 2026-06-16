@@ -92,6 +92,115 @@ module.exports = async (req, res) => {
         "Authorization": `Bearer ${apiKey}`
       },
       body: JSON.stringify({
+        model: "qwen/qwen3-coder-480b-a35b-instruct",
+        messages,
+        max_tokens: 1024,
+        temperature: 0.6,
+        top_p: 0.7,
+        stream: false
+      })
+    });
+
+    // Lê o corpo UMA vez
+    const rawBody = await response.text();
+
+    if (!response.ok) {
+      console.error(`NVIDIA API HTTP ${response.status}:`, rawBody);
+
+      let userMessage = "Erro ao processar sua solicitação. Tente novamente em instantes ou entre em contato pelo telefone (16) 3307-6808.";
+
+      if (response.status === 401) {
+        userMessage = "Chave de API inválida (401). Verifique a variável NVIDIA_API_KEY no painel da Vercel.";
+      } else if (response.status === 429) {
+        userMessage = "Limite de requisições atingido. Aguarde alguns instantes e tente novamente.";
+      } else if (response.status === 404) {
+        userMessage = "Modelo não encontrado (404). Verifique o nome do modelo configurado.";
+      }
+
+      return res.status(500).json({ error: userMessage });
+    }
+
+    let data;
+    try {
+      data = JSON.parse(rawBody);
+    } catch (parseErr) {
+      console.error("Falha ao fazer parse da resposta NVIDIA:", rawBody);
+      return res.status(500).json({ error: "Resposta inválida da API. Tente novamente." });
+    }
+
+    const text = data.choices?.[0]?.message?.content;
+
+    if (!text) {
+      console.error("Resposta sem conteúdo:", JSON.stringify(data));
+      return res.status(500).json({ error: "A API retornou uma resposta vazia. Tente novamente." });
+    }
+
+    return res.status(200).json({ response: text });
+
+  } catch (error) {
+    console.error("Erro de rede ao chamar NVIDIA API:", error.message);
+    return res.status(500).json({
+      error: "Não foi possível conectar ao serviço de IA. Verifique sua conexão ou tente novamente."
+    });
+  }
+};4. Além do curso, é importante participar das reuniões mensais do Fórum Municipal mesmo durante o período de experiência. O Fórum é um espaço que reúne todos os participantes, apoiadores e interessados em EcoSol da cidade e reforça a importância da coletividade. Link: https://www.facebook.com/forumsaocarlos
+
+Regras para Alimentação/Gastronomia na Praça XV:
+- É necessário ter uma MEI aberta com CNAE específico para produção e comércio ambulante de alimentos e o Curso de Boas Práticas de Manipulação de Alimentos da ANVISA.
+- Só são permitidas 2 barracas vendendo o mesmo tipo de produto. Por exemplo, 2 barracas de pastel, 2 barracas de cachorro quente, etc.
+
+Artesanato: Não há essa exigência de MEI/ANVISA/limite de barracas citada para alimentação.
+
+Informações Gerais:
+- A participação na feira é gratuita. A prefeitura não cobra nenhuma taxa dos expositores.
+- Instagram da feira da praça XV: https://www.instagram.com/feirapracaxv/
+- Grupo do whatsapp do Fórum Municipal: https://chat.whatsapp.com/Gw6yXqFnriIFuspOGf9FNr
+
+Informações sobre Cadastramento:
+- O que é o Cadastramento? Existe um CADASTRO ANUAL da Economia Solidária feito pelo Conselho Municipal que ocorre 3 vezes no ano (fevereiro, julho, outubro). Somente os grupos e pessoas cadastradas podem participar das Feiras e atividades regularmente.
+- O cadastramento é realizado na plataforma: cadastro-comesol.vercel.app
+- O representante do grupo deve se registrar na plataforma e preencher os dados dos membros dentro do prazo estipulado.
+- Os arquivos (atas, plano de trabalho, portfolio) devem ser enviados pelo e-mail para: cadastrocomesol@gmail.com
+
+IMPORTANTE: NUNCA forneça nenhum link (URL) entre parênteses, colchetes ou qualquer outro sinal de pontuação que o envolva. Apenas forneça o link limpo.`;
+
+module.exports = async (req, res) => {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  const { message, history } = req.body;
+
+  if (!message) {
+    return res.status(400).json({ error: "Message is required" });
+  }
+
+  const apiKey = (process.env.NVIDIA_API_KEY || "").trim();
+
+  if (!apiKey) {
+    console.error("NVIDIA_API_KEY não configurada.");
+    return res.status(500).json({
+      error: "Configuração incompleta: NVIDIA_API_KEY não encontrada. Configure a variável de ambiente no painel da Vercel."
+    });
+  }
+
+  // Monta o histórico no formato OpenAI
+  const messages = [
+    { role: "system", content: SYSTEM_PROMPT },
+    ...(history || [])
+      .filter(h => h.role === "user" || h.role === "assistant")
+      .map(h => ({ role: h.role, content: h.content })),
+    { role: "user", content: message }
+  ];
+
+  try {
+    const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
         model: "qwen/qwen3-32b",
         messages,
         max_tokens: 1024,
