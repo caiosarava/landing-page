@@ -126,6 +126,37 @@
             transform: scale(1.1);
             background-color: #059669;
         }
+        .chatbot-tag {
+            position: fixed;
+            bottom: 115px;
+            right: 100px;
+            background: white;
+            color: #10b981;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            z-index: 9998;
+            pointer-events: none;
+            white-space: nowrap;
+            border: 1px solid #10b981;
+            animation: fadeInRight 0.5s ease-out;
+        }
+        .chatbot-tag::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-left: 8px solid white;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+        }
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
         .chatbot-container {
             position: fixed;
             bottom: 100px;
@@ -824,9 +855,13 @@
 
         function toggleChat() {
             chatContainer.classList.toggle('active');
+            const tag = document.getElementById('chatbotTag');
             if (chatContainer.classList.contains('active')) {
+                if (tag) tag.style.display = 'none';
                 userInput.focus();
                 renderHistory();
+            } else {
+                if (tag) tag.style.display = 'block';
             }
         }
 
@@ -834,10 +869,10 @@
         function renderHistory() {
             chatMessages.innerHTML = '';
             chatHistory.forEach(msg => {
-                addMessage(msg.content, msg.role === 'user', false);
+                addMessage(msg.content, msg.role === 'user');
             });
             if (chatMessages.children.length === 0) {
-                addMessage("Olá, este é o assistente do DAES. Como posso ajudar?", false, false);
+                addMessage("Olá, este é o assistente do DAES. Como posso ajudar?", false);
             }
         }
 
@@ -857,16 +892,19 @@
             let content = safeText.innerHTML;
 
             // Depois aplicamos as transformações controladas
-            content = content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
-                            .replace(/\n/g, '<br>');
+            content = content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
 
-            const urlPattern = /(https?:\/\/[^\s]+)/g;
+            // Regex para capturar URLs sem incluir tags HTML posteriores (como <br>)
+            const urlPattern = /(https?:\/\/[^\s<]+)/g;
             content = content.replace(urlPattern, function(url) {
-                // Remover pontuação final se houver
+                // Remover pontuação final se houver (como ponto final no fim da frase)
                 const cleanUrl = url.replace(/[.,!?;:]$/, '');
                 const punctuation = url.substring(cleanUrl.length);
                 return `<a href="${cleanUrl}" target="_blank" class="text-emerald-600 underline">${cleanUrl}</a>${punctuation}`;
             });
+
+            // Por fim, substituímos as quebras de linha para não interferir na detecção de URLs
+            content = content.replace(/\n/g, '<br>');
 
             p.innerHTML = content;
             msgDiv.appendChild(p);
@@ -1033,6 +1071,11 @@
             </form>
             <p class="text-[9px] text-slate-400 mt-2 text-center">Powered by Gemini 2.0</p>
         </div>
+    </div>
+
+    <!-- Chatbot Tag -->
+    <div id="chatbotTag" class="chatbot-tag">
+        Tire suas dúvidas aqui
     </div>
 
     <!-- Chatbot Button -->

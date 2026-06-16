@@ -34,7 +34,6 @@ Informações Institucionais:
 
 Processo para participar da Feira:
 1. O primeiro passo é fazer o Curso de Introdução à Economia Solidária. O curso é online, com aulas gravadas e a inscrição é feita pelo link https://forms.gle/STniGFVZquw3zWxA7
-   IMPORTANTE: NUNCA forneça o link do curso entre parenteses ou colchetes. Apenas forneça o link como está escrito acima.
 2. Após o preenchimento do formulário, a pessoa receberá por whatsapp o link de acesso ao curso. Esse processo demora alguns dias para acontecer.
 3. Após a realização do curso, a pessoa será direcionada para uma fila de espera para uma turma em experiência pelo período de 3 meses. Durante esse período, será acompanhado pela Comissão Organizadora e pelo DES, com a possibilidade de se cadastrar ao final deste período.
 4. Além do curso, é importante participar das reuniões mensais do Fórum Municipal mesmo durante o período de experiência. O Fórum é um espaço que reúne todos os participantes, apoiadores e interessados em EcoSol da cidade e reforça a importância da coletividade. Link: https://www.facebook.com/forumsaocarlos
@@ -54,7 +53,9 @@ Informações sobre Cadastramento:
 - O que é o Cadastramento? Existe um CADASTRO ANUAL da Economia Solidária feito pelo Conselho Municipal que ocorre 3 vezes no ano (fevereiro, julho, outubro). Somente os grupos e pessoas cadastradas podem participar das Feiras e atividades regularmente.
 - O cadastramento é realizado na plataforma: cadastro-comesol.vercel.app
 - O representante do grupo deve se registrar na plataforma e preencher os dados dos membros dentro do prazo estipulado.
-- Os arquivos (atas, plano de trabalho, portfolio) devem ser enviados pelo e-mail para: cadastrocomesol@gmail.com`;
+- Os arquivos (atas, plano de trabalho, portfolio) devem ser enviados pelo e-mail para: cadastrocomesol@gmail.com
+
+IMPORTANTE: NUNCA forneça nenhum link (URL) entre parênteses, colchetes ou qualquer outro sinal de pontuação que o envolva. Apenas forneça o link limpo.`;
 
 module.exports = async (req, res) => {
   if (req.method !== "POST") {
@@ -68,6 +69,10 @@ module.exports = async (req, res) => {
   }
 
   try {
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({ error: "Configuração incompleta: GEMINI_API_KEY não encontrada." });
+    }
+
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
