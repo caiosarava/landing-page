@@ -841,23 +841,35 @@
             }
         }
 
-        function addMessage(text, isUser, save = true) {
+        function addMessage(text, isUser) {
             const msgDiv = document.createElement('div');
             msgDiv.className = isUser
                 ? "bg-emerald-100 text-slate-800 p-3 rounded-2xl rounded-tr-none shadow-sm max-w-[85%] self-end border border-emerald-200"
                 : "bg-white text-slate-700 p-3 rounded-2xl rounded-tl-none shadow-sm max-w-[85%] border border-slate-100 self-start";
 
-            // Simples tratamento de markdown para negrito e links
-            let formattedText = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
-                                  .replace(/\n/g, '<br>');
+            const p = document.createElement('p');
+            p.className = "text-sm";
 
-            // Detectar links e transformar em <a> tags se não forem fornecidos já formatados
+            // Processamento seguro de texto (negrito e links)
+            // Primeiro, escapamos o HTML básico usando textContent para evitar XSS
+            const safeText = document.createElement('div');
+            safeText.textContent = text;
+            let content = safeText.innerHTML;
+
+            // Depois aplicamos as transformações controladas
+            content = content.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+                            .replace(/\n/g, '<br>');
+
             const urlPattern = /(https?:\/\/[^\s]+)/g;
-            formattedText = formattedText.replace(urlPattern, function(url) {
-                return `<a href="${url}" target="_blank" class="text-emerald-600 underline">${url}</a>`;
+            content = content.replace(urlPattern, function(url) {
+                // Remover pontuação final se houver
+                const cleanUrl = url.replace(/[.,!?;:]$/, '');
+                const punctuation = url.substring(cleanUrl.length);
+                return `<a href="${cleanUrl}" target="_blank" class="text-emerald-600 underline">${cleanUrl}</a>${punctuation}`;
             });
 
-            msgDiv.innerHTML = `<p class="text-sm">${formattedText}</p>`;
+            p.innerHTML = content;
+            msgDiv.appendChild(p);
             chatMessages.appendChild(msgDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
@@ -898,10 +910,22 @@
                     })
                 });
 
-                // Se falhar o backend (ex: sem chave de API ainda), tentar fallback para demonstrar a UI
+                const contentType = response.headers.get("content-type");
+
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    return errorData.error || "Erro na comunicação com o servidor.";
+                    if (contentType && contentType.indexOf("application/json") !== -1) {
+                        const errorData = await response.json();
+                        return errorData.error || "Erro na comunicação com o servidor.";
+                    } else {
+                        // Se não for JSON, provavelmente é uma página de erro (HTML)
+                        const errorText = await response.text();
+                        console.error('Erro Servidor:', errorText);
+                        return "O serviço está temporariamente indisponível. Por favor, tente novamente mais tarde.";
+                    }
+                }
+
+                if (!contentType || contentType.indexOf("application/json") === -1) {
+                    throw new Error("Resposta inválida do servidor (não é JSON)");
                 }
 
                 const data = await response.json();
