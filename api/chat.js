@@ -1,5 +1,3 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-
 const SYSTEM_PROMPT = `Você é um assistente de atendimento do Departamento de Economia Solidária da Prefeitura Municipal de São Carlos e se chama DAES. Você faz o atendimento inicial de pessoas que estão interessadas na economia solidária ou participar da Feira da Praça XV. Além disso, seu objetivo é fornecer informações precisas e acessíveis, tirar dúvidas e orientar o público sobre os princípios, conceitos, práticas e oportunidades relacionadas a economia solidária.
 
 Sua persona deve ser a de um especialista atencioso, educado e bem-informado.
@@ -69,51 +67,65 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const apiKey = (process.env.GEMINI_API_KEY || "").trim();
+    const apiKey = (process.env.NVIDIA_API_KEY || "").trim();
 
     if (!apiKey) {
       return res.status(500).json({
-        error: "Configuração incompleta: GEMINI_API_KEY não encontrada no ambiente do Vercel."
+        error: "Configuração incompleta: NVIDIA_API_KEY não encontrada no ambiente do Vercel."
       });
     }
 
-    const genAI = new GoogleGenerativeAI(apiKey);
-
-    // gemini-2.0-flash é o modelo estável e gratuito atual
-    const model = genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
-      systemInstruction: SYSTEM_PROMPT,
-    });
-
-    const chat = model.startChat({
-      history: (history || [])
+    // Monta o histórico de mensagens no formato OpenAI
+    const messages = [
+      { role: "system", content: SYSTEM_PROMPT },
+      ...(history || [])
         .filter(h => h.role === "user" || h.role === "assistant")
-        .map(h => ({
-          role: h.role === "user" ? "user" : "model",
-          parts: [{ text: h.content }],
-        })),
+        .map(h => ({ role: h.role, content: h.content })),
+      { role: "user", content: message }
+    ];
+
+    const response = await fetch("https://integrate.api.nvidia.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: "qwen/qwen3-235b-a22b",
+        messages,
+        max_tokens: 1024,
+        temperature: 0.6,
+        top_p: 0.7,
+        stream: false
+      })
     });
 
-    const result = await chat.sendMessage(message);
-    const response = await result.response;
-    const text = response.text();
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      console.error("NVIDIA API Error:", errorData);
 
-    res.status(200).json({ response: text });
-  } catch (error) {
-    console.error("Gemini API Error:", error);
+      let errorMessage = "Erro ao processar sua solicitação. ";
 
-    let errorMessage = "Erro ao processar sua solicitação. ";
+      if (response.status === 401) {
+        errorMessage += "A NVIDIA_API_KEY configurada é inválida. Verifique nas variáveis de ambiente do Vercel.";
+      } else if (response.status === 429) {
+        errorMessage += "Limite de uso da API atingido. Tente novamente mais tarde.";
+      } else {
+        errorMessage += "Tente novamente em instantes ou entre em contato pelo telefone (16) 3307-6808.";
+      }
 
-    if (error.message && error.message.includes("API key not valid")) {
-      errorMessage += "A GEMINI_API_KEY configurada é inválida. Verifique nas variáveis de ambiente do Vercel.";
-    } else if (error.message && error.message.includes("quota")) {
-      errorMessage += "Limite de uso da API atingido. Tente novamente mais tarde.";
-    } else if (error.message && error.message.includes("not found")) {
-      errorMessage += "Modelo não encontrado. Verifique se a chave de API tem acesso ao modelo solicitado.";
-    } else {
-      errorMessage += "Tente novamente em instantes ou entre em contato pelo telefone (16) 3307-6808.";
+      return res.status(500).json({ error: errorMessage });
     }
 
-    res.status(500).json({ error: errorMessage });
+    const data = await response.json();
+    const text = data.choices?.[0]?.message?.content || "";
+
+    res.status(200).json({ response: text });
+
+  } catch (error) {
+    console.error("NVIDIA API Error:", error);
+    res.status(500).json({
+      error: "Não foi possível conectar ao serviço. Tente novamente em instantes ou entre em contato pelo telefone (16) 3307-6808."
+    });
   }
 };
