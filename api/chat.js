@@ -92,7 +92,7 @@ module.exports = async (req, res) => {
         "Authorization": `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: "qwen/qwen3-coder-480b-a35b-instruct",
+        model: "qwen/qwen3-next-80b-a3b-instruct",
         messages,
         max_tokens: 1024,
         temperature: 0.6,
