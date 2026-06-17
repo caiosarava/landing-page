@@ -107,7 +107,6 @@
             position: fixed;
             bottom: 105px;
             right: 25px;
-            background-color: #10b981;
             width: 65px;
             height: 65px;
             border-radius: 50%;
@@ -118,13 +117,13 @@
             z-index: 9999;
             transition: all 0.3s ease;
             animation: pulse-emerald 2s infinite;
-            color: white;
             border: none;
             cursor: pointer;
+            padding: 0;
+            overflow: hidden;
         }
         .chatbot-btn:hover {
             transform: scale(1.1);
-            background-color: #059669;
         }
         .chatbot-tag {
             position: fixed;
@@ -1039,8 +1038,8 @@
         <!-- Chat Header -->
         <div class="bg-emerald-600 p-4 text-white flex justify-between items-center shadow-md">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center">
-                    <img src="/logo.png" alt="DAES" class="w-8 h-8 object-contain">
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden">
+                    <img src="Rosto SOL.png" alt="DAES" class="w-full h-full object-cover">
                 </div>
                 <div>
                     <h4 class="font-bold text-sm">Assistente DAES</h4>
@@ -1080,7 +1079,7 @@
 
     <!-- Chatbot Button -->
     <button id="openChat" class="chatbot-btn" aria-label="Abrir chat">
-        <i class="fas fa-comments text-3xl"></i>
+        <img src="Rosto SOL.png" alt="Assistente SOL" class="w-full h-full object-cover">
     </button>
 
    <!-- Botão Flutuante do WhatsApp com Animação -->
