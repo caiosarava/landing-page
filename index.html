@@ -187,44 +187,6 @@
         .chatbot-container.active {
             display: flex;
         }
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
-            transition: all 0.3s ease;
-            z-index: 1000;
-            text-decoration: none;
-        }
-        .whatsapp-float:hover {
-            transform: scale(1.15) translateY(-5px);
-            box-shadow: 0 6px 16px rgba(37, 211, 102, 0.6);
-        }
-        .whatsapp-float svg {
-            width: 32px;
-            height: 32px;
-            fill: white;
-        }
-        @media (max-width: 768px) {
-            .whatsapp-float {
-                bottom: 20px;
-                right: 20px;
-                width: 55px;
-                height: 55px;
-            }
-            .whatsapp-float svg {
-                width: 28px;
-                height: 28px;
-            }
-        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-900 font-sans">
@@ -688,6 +650,27 @@
         </div>
     </section>
 
+    <!-- Contatos -->
+    <section id="contatos" class="py-20 px-6 bg-slate-100">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-8">Contatos</h2>
+            <div class="flex flex-col sm:flex-row justify-center gap-6">
+                <a href="https://wa.me/551633076808?text=Olá!%20Gostaria%20de%20mais%20informações"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold py-4 px-10 rounded-xl transition duration-300 shadow-lg flex items-center justify-center gap-3">
+                    <i class="fab fa-whatsapp text-2xl"></i>
+                    WhatsApp
+                </a>
+                <a href="mailto:daes.ecosol@gmail.com"
+                   class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 px-10 rounded-xl transition duration-300 shadow-lg flex items-center justify-center gap-3">
+                    <i class="fas fa-envelope text-2xl"></i>
+                    E-mail
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Rodapé -->
     <footer class="bg-slate-900 text-slate-400 py-16 px-6 border-t border-slate-800">
         <div class="max-w-5xl mx-auto grid md:grid-cols-3 gap-12">
@@ -1081,57 +1064,6 @@
     <button id="openChat" class="chatbot-btn" aria-label="Abrir chat">
         <img src="Rosto SOL.png" alt="Assistente SOL" class="w-full h-full object-cover">
     </button>
-
-   <!-- Botão Flutuante do WhatsApp com Animação -->
-<a href="https://wa.me/551633076808?text=Olá!%20Gostaria%20de%20mais%20informações" 
-   class="whatsapp-btn" 
-   target="_blank" 
-   rel="noopener noreferrer"
-   aria-label="Fale conosco pelo WhatsApp">
-    
-    <!-- Ícone WhatsApp via Font Awesome para alinhamento perfeito -->
-    <i class="fab fa-whatsapp text-white text-4xl"></i>
-</a>
-
-<style>
-    .whatsapp-btn {
-        position: fixed;
-        bottom: 25px;
-        right: 25px;
-        background-color: #25d366;
-        width: 65px;
-        height: 65px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-        z-index: 9999;
-        transition: all 0.3s ease;
-        animation: pulse-green 2s infinite;
-    }
-
-    .whatsapp-btn:hover {
-        transform: scale(1.1);
-        background-color: #128c7e;
-        animation: none;
-    }
-
-    @keyframes pulse-green {
-        0% {
-            transform: scale(0.95);
-            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
-        }
-        70% {
-            transform: scale(1);
-            box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
-        }
-        100% {
-            transform: scale(0.95);
-            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
-        }
-    }
-</style>
 
 </body>
 </html>
