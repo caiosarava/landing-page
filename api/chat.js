@@ -14,7 +14,7 @@ Formas de Organização:
 
 Tom: Empático, didático e encorajador. Evite jargões complexos e, quando necessário, explique os termos de forma simples.
 Linguagem: Use uma linguagem clara, direta e acessível. Você pode usar analogias ou exemplos do dia a dia para ilustrar conceitos.
-Estrutura: As respostas devem ser bem organizadas. Use listas, parágrafos curtos e negrito para destacar informações importantes.
+Estrutura: As respostas devem ser bem organized. Use listas, parágrafos curtos e negrito para destacar informações importantes.
 
 Diretrizes de Interação:
 • Escuta Ativa: Analise a intenção do usuário. Se a pergunta for vaga, peça mais detalhes para fornecer uma resposta mais precisa.
@@ -92,7 +92,7 @@ module.exports = async (req, res) => {
         "Authorization": `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: "qwen/qwen3-next-80b-a3b-instruct",
+        model: "meta/llama-3.3-70b-instruct",
         messages,
         max_tokens: 1024,
         temperature: 0.6,
@@ -117,7 +117,10 @@ module.exports = async (req, res) => {
         userMessage = "Modelo não encontrado (404). Verifique o nome do modelo configurado.";
       }
 
-      return res.status(500).json({ error: userMessage });
+      return res.status(response.status >= 400 && response.status < 600 ? response.status : 500).json({
+        error: userMessage,
+        details: rawBody
+      });
     }
 
     let data;
@@ -125,14 +128,20 @@ module.exports = async (req, res) => {
       data = JSON.parse(rawBody);
     } catch (parseErr) {
       console.error("Falha ao fazer parse da resposta NVIDIA:", rawBody);
-      return res.status(500).json({ error: "Resposta inválida da API. Tente novamente." });
+      return res.status(500).json({
+        error: "Resposta inválida da API. Tente novamente.",
+        details: rawBody
+      });
     }
 
     const text = data.choices?.[0]?.message?.content;
 
     if (!text) {
       console.error("Resposta sem conteúdo:", JSON.stringify(data));
-      return res.status(500).json({ error: "A API retornou uma resposta vazia. Tente novamente." });
+      return res.status(500).json({
+        error: "A API retornou uma resposta vazia. Tente novamente.",
+        details: JSON.stringify(data)
+      });
     }
 
     return res.status(200).json({ response: text });
@@ -140,7 +149,8 @@ module.exports = async (req, res) => {
   } catch (error) {
     console.error("Erro de rede ao chamar NVIDIA API:", error.message);
     return res.status(500).json({
-      error: "Não foi possível conectar ao serviço de IA. Verifique sua conexão ou tente novamente."
+      error: "Não foi possível conectar ao serviço de IA. Verifique sua conexão ou tente novamente.",
+      details: error.message
     });
   }
 };
