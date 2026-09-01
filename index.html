@@ -209,17 +209,35 @@
             <p class="text-xl md:text-2xl opacity-80 mb-10 max-w-2xl mx-auto font-light">
                 Unindo forças para um comércio mais justo, humano e sustentável em nossa cidade.
             </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
-                <a href="#sobre" class="bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold py-4 px-10 rounded-xl transition duration-300 shadow-lg">
+            <div class="flex flex-col sm:flex-row justify-center gap-4 items-center">
+                <a href="#sobre" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold py-4 px-8 rounded-xl transition duration-300 shadow-lg text-center">
                     Conhecer o Movimento
                 </a>
-                <a href="#agenda" class="bg-transparent border-2 border-slate-400 hover:border-white hover:text-white text-slate-300 font-bold py-4 px-10 rounded-xl transition duration-300">
+                <a href="#agenda" class="w-full sm:w-auto bg-transparent border-2 border-slate-400 hover:border-white hover:text-white text-slate-300 font-bold py-4 px-8 rounded-xl transition duration-300 text-center">
                     Agenda
                 </a>
-                <a href="#feira" class="bg-transparent border-2 border-slate-400 hover:border-white hover:text-white text-slate-300 font-bold py-4 px-10 rounded-xl transition duration-300">
-                    Feira da Praça XV
-                </a>
-                <a href="#cadastro" class="bg-transparent border-2 border-slate-400 hover:border-white hover:text-white text-slate-300 font-bold py-4 px-10 rounded-xl transition duration-300">
+
+                <!-- Dropdown Feiras -->
+                <div class="relative group w-full sm:w-auto">
+                    <a href="#feiras" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-transparent border-2 border-slate-400 hover:border-white hover:text-white text-slate-300 font-bold py-4 px-8 rounded-xl transition duration-300 text-center">
+                        Feiras
+                        <i class="fas fa-chevron-down text-xs transition-transform duration-200 group-hover:rotate-180"></i>
+                    </a>
+                    <!-- Submenu Dropdown -->
+                    <div class="absolute left-0 sm:left-1/2 sm:-translate-x-1/2 top-full mt-2 w-64 bg-slate-800 text-white rounded-xl shadow-2xl border border-slate-700 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 overflow-hidden">
+                        <a href="#feira" class="block px-5 py-3 text-sm text-slate-300 hover:bg-emerald-600 hover:text-white transition border-b border-slate-700/50">
+                            <i class="fas fa-store text-emerald-400 mr-2"></i> Feira da Praça XV
+                        </a>
+                        <a href="#feira-organica" class="block px-5 py-3 text-sm text-slate-300 hover:bg-emerald-600 hover:text-white transition border-b border-slate-700/50">
+                            <i class="fas fa-carrot text-emerald-400 mr-2"></i> Feira Orgânica
+                        </a>
+                        <a href="#feira-ufscar" class="block px-5 py-3 text-sm text-slate-300 hover:bg-emerald-600 hover:text-white transition">
+                            <i class="fas fa-university text-emerald-400 mr-2"></i> Feira EcoSolidária UFSCar
+                        </a>
+                    </div>
+                </div>
+
+                <a href="#cadastro" class="w-full sm:w-auto bg-transparent border-2 border-slate-400 hover:border-white hover:text-white text-slate-300 font-bold py-4 px-8 rounded-xl transition duration-300 text-center">
                     Cadastrar Interesse
                 </a>
             </div>
@@ -335,6 +353,19 @@
         </div>
     </section>
 
+    <!-- FEIRAS (Introdução do Bloco de Feiras) -->
+    <section id="feiras" class="py-20 px-6 bg-gradient-to-br from-emerald-50 via-slate-50 to-emerald-100 border-t border-emerald-200">
+        <div class="max-w-5xl mx-auto text-center">
+            <div class="inline-block bg-emerald-100 text-emerald-800 text-xs font-bold px-4 py-1.5 rounded-full mb-4 uppercase tracking-widest border border-emerald-300">
+                Circuitos & Comercialização Direta
+            </div>
+            <h2 class="text-4xl md:text-6xl font-extrabold text-slate-900 tracking-tight mb-6">FEIRAS</h2>
+            <p class="text-lg md:text-xl text-slate-700 max-w-3xl mx-auto leading-relaxed">
+                As feiras de Economia Solidária de São Carlos são espaços vivos de convivência, consumo consciente e valorização dos produtores locais. Conheça nossos pontos de encontro semanais espalhados pela cidade.
+            </p>
+        </div>
+    </section>
+
     <!-- Feira da Praça XV -->
     <section id="feira" class="bg-slate-900 text-white py-20 px-6">
         <div class="max-w-5xl mx-auto">
@@ -445,6 +476,100 @@
                             </div>
                         </blockquote>
                         <script async src="//www.instagram.com/embed.js"></script>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feira Orgânica -->
+    <section id="feira-organica" class="py-20 px-6 bg-slate-50 border-t border-slate-200">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-emerald-600 font-bold uppercase tracking-widest text-sm mb-2">Alimentação Saudável e Sustentável</h2>
+                <h3 class="text-3xl md:text-5xl font-bold text-slate-900">Feira Orgânica</h3>
+                <p class="text-slate-600 mt-4 max-w-xl mx-auto">Produtos orgânicos, livres de agrotóxicos e direto dos produtores locais.</p>
+            </div>
+
+            <div class="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-slate-100 max-w-3xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-xl shrink-0">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs uppercase font-bold text-slate-400 tracking-wider">Quando ocorre</h4>
+                                <p class="text-lg font-bold text-slate-800">Todos os Sábados</p>
+                                <p class="text-slate-600 text-sm">Das 8h às 13h</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-xl shrink-0">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs uppercase font-bold text-slate-400 tracking-wider">Localização</h4>
+                                <p class="text-lg font-bold text-slate-800">Biblioteca Municipal Amadeu Amaral</p>
+                                <p class="text-slate-600 text-sm">Em frente à biblioteca (São Carlos - SP)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-emerald-50 p-6 rounded-2xl border border-emerald-100 text-center">
+                        <div class="w-16 h-16 bg-emerald-500 text-white rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-md">
+                            <i class="fas fa-carrot"></i>
+                        </div>
+                        <h4 class="font-bold text-slate-800 mb-2">Saúde & Natureza</h4>
+                        <p class="text-slate-600 text-xs leading-relaxed">
+                            Apoie a agricultura familiar ecológica e garanta alimentos frescos e sem defensivos agrícolas para a sua família.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feira EcoSolidária da UFSCar -->
+    <section id="feira-ufscar" class="bg-slate-900 text-white py-20 px-6 border-t border-slate-800">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-emerald-400 font-bold uppercase tracking-widest text-sm mb-2">Comunidade Universitária & Agroecologia</h2>
+                <h3 class="text-3xl md:text-5xl font-bold">Feira EcoSolidária da UFSCar</h3>
+                <p class="text-slate-400 mt-4 max-w-xl mx-auto">Conectando o campus comunitário com os empreendimentos solidários locais.</p>
+            </div>
+
+            <div class="bg-slate-800/60 p-8 md:p-12 rounded-3xl border border-slate-700 max-w-3xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div class="space-y-6">
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center text-xl shrink-0">
+                                <i class="fas fa-calendar-day"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs uppercase font-bold text-slate-400 tracking-wider">Quando ocorre</h4>
+                                <p class="text-lg font-bold text-white">Todas as Terças-feiras</p>
+                                <p class="text-slate-300 text-sm">A partir das 17h</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-2xl flex items-center justify-center text-xl shrink-0">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xs uppercase font-bold text-slate-400 tracking-wider">Localização</h4>
+                                <p class="text-lg font-bold text-white">Ginásio de Esportes da UFSCar</p>
+                                <p class="text-slate-300 text-sm">Em frente ao ginásio (Campus São Carlos)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 text-center">
+                        <div class="w-16 h-16 bg-emerald-500 text-slate-900 rounded-full flex items-center justify-center text-2xl mx-auto mb-4 shadow-md">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h4 class="font-bold text-white mb-2">Integração & Cultura</h4>
+                        <p class="text-slate-400 text-xs leading-relaxed">
+                            Ponto de encontro para estudantes, professores e toda a comunidade apreciar o artesanato e a produção solidária.
+                        </p>
                     </div>
                 </div>
             </div>
