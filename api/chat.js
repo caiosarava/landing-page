@@ -92,7 +92,7 @@ module.exports = async (req, res) => {
         "Authorization": `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: "nvidia/llama-3.1-nemotron-70b-instruct",
+        model: "nvidia/nemotron-3.5-lightning-30b-a3b",
         messages,
         max_tokens: 1024,
         temperature: 0.6,

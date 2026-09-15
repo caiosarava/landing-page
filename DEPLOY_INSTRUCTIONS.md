@@ -16,4 +16,4 @@ Para que o chatbot funcione corretamente no deploy da Vercel, siga estes passos:
 
 3. **Redeploy:** Faça um novo deploy ou clique em "Redeploy" para que as variáveis de ambiente entrem em vigor.
 
-**Observação:** O código utiliza por padrão o modelo `nvidia/llama-3.1-nemotron-70b-instruct` através do endpoint `https://integrate.api.nvidia.com/v1/chat/completions`.
+**Observação:** O código utiliza por padrão o modelo `nvidia/nemotron-3.5-lightning-30b-a3b` através do endpoint `https://integrate.api.nvidia.com/v1/chat/completions`.
